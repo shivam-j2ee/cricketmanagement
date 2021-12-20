@@ -8,6 +8,7 @@ public class CricketmanagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CricketmanagementApplication.class, args);
+		System.out.println("New Project");
 	}
 
 }
