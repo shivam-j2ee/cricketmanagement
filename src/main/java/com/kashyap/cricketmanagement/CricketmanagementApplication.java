@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class CricketmanagementApplication  {
+public class CricketmanagementApplication extends UserDetailsServiceAutoConfiguration  {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(CricketmanagementApplication.class, args);
