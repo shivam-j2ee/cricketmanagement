@@ -1,9 +1,6 @@
 package com.kashyap.cricketmanagement.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user_detail")
@@ -11,6 +8,7 @@ public class UserDetail {
 
     @Id
     @Column(name = "USER_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     @Column(name = "USER_NAME")

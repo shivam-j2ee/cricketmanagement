@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -23,19 +24,20 @@ public class SecurityConfig {
     @Qualifier("myUserDetailService")
     private UserDetailsService userDetailsService;
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // Configure security settings here
-        http.csrf(customize -> customize.disable());// disable CSRF protection for simplicity
-        Customizer<CsrfConfigurer<HttpSecurity>> cust = new Customizer<CsrfConfigurer<HttpSecurity>>() {
-            @Override
-            public void customize(CsrfConfigurer<HttpSecurity> customize) {
-                customize.disable();
-            }
-        };
-        http.authorizeHttpRequests(request -> request.anyRequest().authenticated());// enable authentication for all requests
-        http.formLogin(Customizer.withDefaults());// for browser-based login
-        http.httpBasic(Customizer.withDefaults()); // for post-man
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));// to make session stateless to handle CRSF in better way
+        //http.csrf(customize -> customize.disable());// disable CSRF protection for simplicity
+        //Customizer<CsrfConfigurer<HttpSecurity>> cust = new Customizer<CsrfConfigurer<HttpSecurity>>() {
+          //  @Override
+           // public void customize(CsrfConfigurer<HttpSecurity> customize) {
+            //    customize.disable();
+            //}
+        //};
+        //http.authorizeHttpRequests(request -> request.anyRequest().authenticated());// enable authentication for all requests
+        //http.formLogin(Customizer.withDefaults());// for browser-based login
+        //http.httpBasic(Customizer.withDefaults()); // for post-man
+        //http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));// to make session stateless to handle CRSF in better way
         return http
                 .csrf(customize -> customize.disable())// disable CSRF protection for simplicity
                 .authorizeHttpRequests(request -> request.anyRequest().authenticated())// enable authentication for all requests
@@ -47,8 +49,10 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
+
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance()); // Use a no-op password encoder for simplicity
+        //provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance()); // Use a no-op password encoder for simplicity
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12)); // Use a no-op password encoder for simplicity
         provider.setUserDetailsService(userDetailsService); // Set the user details service
         return provider; // Replace with actual AuthenticationProvider implementation
     }
